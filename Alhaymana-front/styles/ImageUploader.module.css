@@ -1,0 +1,7 @@
+.ImageUploader {
+  margin-top: 20px;
+}
+
+.ImageUploader img {
+  max-width: 50%;
+}
