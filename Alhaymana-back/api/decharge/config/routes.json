@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/decharges",
+      "handler": "decharge.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/decharges/count",
+      "handler": "decharge.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/decharges/:id",
+      "handler": "decharge.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/decharges",
+      "handler": "decharge.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/decharges/:id",
+      "handler": "decharge.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/decharges/:id",
+      "handler": "decharge.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

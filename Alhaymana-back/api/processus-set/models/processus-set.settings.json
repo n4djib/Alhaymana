@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "processus_sets",
+  "info": {
+    "name": "processus_set",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "date_passation": {
+      "type": "date"
+    },
+    "responsable": {
+      "type": "string"
+    },
+    "processus_etaps": {
+      "via": "processus_set",
+      "collection": "processus-etap"
+    },
+    "users_permissions_users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "processus_sets",
+      "dominant": true
+    }
+  }
+}

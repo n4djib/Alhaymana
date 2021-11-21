@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contrats",
+  "info": {
+    "name": "contrat",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "numero": {
+      "type": "string"
+    },
+    "debut": {
+      "type": "date"
+    },
+    "fin": {
+      "type": "date"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "cdi",
+        "cdd"
+      ]
+    },
+    "agent": {
+      "via": "contrats",
+      "model": "agent"
+    },
+    "groupe": {
+      "model": "groupe",
+      "via": "contrats"
+    },
+    "fonction": {
+      "type": "string"
+    },
+    "lieu_travail": {
+      "type": "string"
+    },
+    "scan_contrat": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "date_signature": {
+      "type": "date"
+    },
+    "template_contrat": {
+      "model": "template-contrat",
+      "via": "contrats"
+    },
+    "rotations": {
+      "via": "contrat",
+      "collection": "rotation"
+    }
+  }
+}

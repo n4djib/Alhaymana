@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "decharges",
+  "info": {
+    "name": "decharge"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "agent": {
+      "via": "decharges",
+      "model": "agent"
+    },
+    "article": {
+      "via": "decharges",
+      "model": "article"
+    },
+    "nombre": {
+      "type": "integer"
+    },
+    "matricule": {
+      "type": "string"
+    }
+  }
+}

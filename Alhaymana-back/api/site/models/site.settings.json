@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sites",
+  "info": {
+    "name": "site"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string"
+    },
+    "adresse": {
+      "type": "text"
+    },
+    "coordonnees_gps": {
+      "type": "string"
+    },
+    "chef_site": {
+      "type": "string"
+    },
+    "groupes": {
+      "via": "site",
+      "collection": "groupe"
+    }
+  }
+}

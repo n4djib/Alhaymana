@@ -1,0 +1,128 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agents",
+  "info": {
+    "name": "agent",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "matricule": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "nom": {
+      "type": "string"
+    },
+    "prenom": {
+      "type": "string"
+    },
+    "nom_arab": {
+      "type": "string"
+    },
+    "prenom_arab": {
+      "type": "string"
+    },
+    "date_naissance": {
+      "type": "date"
+    },
+    "lieu_naissance": {
+      "type": "text"
+    },
+    "cin": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "cin_delivrer_par": {
+      "type": "string"
+    },
+    "cin_delivrer_le": {
+      "type": "date"
+    },
+    "cnas": {
+      "type": "string",
+      "unique": true
+    },
+    "telephone": {
+      "type": "string"
+    },
+    "adresse": {
+      "type": "text"
+    },
+    "email": {
+      "type": "string"
+    },
+    "prenom_pere": {
+      "type": "string"
+    },
+    "nom_prenom_mere": {
+      "type": "string"
+    },
+    "situation_familiale": {
+      "type": "enumeration",
+      "enum": [
+        "Maries",
+        "Separe",
+        "Divorce",
+        "Veuf",
+        "Celibataire"
+      ]
+    },
+    "num_acte_naissance": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "photo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "sexe": {
+      "type": "enumeration",
+      "enum": [
+        "M",
+        "F"
+      ]
+    },
+    "groupe_sanguin": {
+      "type": "enumeration",
+      "enum": [
+        "A_positif",
+        "A_negatif",
+        "B_positif",
+        "B_negatif",
+        "AB_positif",
+        "AB_negatif",
+        "O_positif",
+        "O_negatif"
+      ]
+    },
+    "contrats": {
+      "via": "agent",
+      "collection": "contrats"
+    },
+    "visites_medicales": {
+      "via": "agent",
+      "collection": "visites-medicale"
+    },
+    "decharges": {
+      "via": "agent",
+      "collection": "decharge"
+    }
+  }
+}

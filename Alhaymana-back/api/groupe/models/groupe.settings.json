@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "groupes",
+  "info": {
+    "name": "groupe"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string"
+    },
+    "site": {
+      "model": "site",
+      "via": "groupes"
+    },
+    "chef_groupe": {
+      "type": "string"
+    },
+    "contrats": {
+      "via": "groupe",
+      "collection": "contrats"
+    }
+  }
+}

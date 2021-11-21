@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "template_contrats",
+  "info": {
+    "name": "template_contrat"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string"
+    },
+    "ms_word_uri": {
+      "type": "string"
+    },
+    "contrats": {
+      "via": "template_contrat",
+      "collection": "contrats"
+    }
+  }
+}

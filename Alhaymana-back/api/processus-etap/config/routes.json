@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/processus-etaps",
+      "handler": "processus-etap.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/processus-etaps/count",
+      "handler": "processus-etap.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/processus-etaps/:id",
+      "handler": "processus-etap.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/processus-etaps",
+      "handler": "processus-etap.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/processus-etaps/:id",
+      "handler": "processus-etap.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/processus-etaps/:id",
+      "handler": "processus-etap.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/processus-sets",
+      "handler": "processus-set.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/processus-sets/count",
+      "handler": "processus-set.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/processus-sets/:id",
+      "handler": "processus-set.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/processus-sets",
+      "handler": "processus-set.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/processus-sets/:id",
+      "handler": "processus-set.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/processus-sets/:id",
+      "handler": "processus-set.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

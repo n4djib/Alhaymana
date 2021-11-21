@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "processuses",
+  "info": {
+    "name": "processus"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

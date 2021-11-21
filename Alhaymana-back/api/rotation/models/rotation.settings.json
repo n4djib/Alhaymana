@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rotations",
+  "info": {
+    "name": "rotation"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "debut": {
+      "type": "date"
+    },
+    "fin": {
+      "type": "date"
+    },
+    "contrat": {
+      "model": "contrats",
+      "via": "rotations"
+    }
+  }
+}

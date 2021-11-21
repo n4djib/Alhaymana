@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "processus_etaps",
+  "info": {
+    "name": "processus_etap"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "accomplie": {
+      "type": "boolean"
+    },
+    "observation": {
+      "type": "text"
+    },
+    "processus_set": {
+      "via": "processus_etaps",
+      "model": "processus-set"
+    }
+  }
+}

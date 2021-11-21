@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "visites_medicales",
+  "info": {
+    "name": "visites_medicale"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date_visite": {
+      "type": "date"
+    },
+    "faite": {
+      "type": "boolean"
+    },
+    "appt": {
+      "type": "boolean"
+    },
+    "observation": {
+      "type": "text"
+    },
+    "agent": {
+      "via": "visites_medicales",
+      "model": "agent"
+    }
+  }
+}

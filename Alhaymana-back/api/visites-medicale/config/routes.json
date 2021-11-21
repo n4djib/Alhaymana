@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/visites-medicales",
+      "handler": "visites-medicale.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/visites-medicales/count",
+      "handler": "visites-medicale.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/visites-medicales/:id",
+      "handler": "visites-medicale.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/visites-medicales",
+      "handler": "visites-medicale.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/visites-medicales/:id",
+      "handler": "visites-medicale.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/visites-medicales/:id",
+      "handler": "visites-medicale.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

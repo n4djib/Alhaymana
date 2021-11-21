@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/template-contrats",
+      "handler": "template-contrat.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/template-contrats/count",
+      "handler": "template-contrat.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/template-contrats/:id",
+      "handler": "template-contrat.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/template-contrats",
+      "handler": "template-contrat.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/template-contrats/:id",
+      "handler": "template-contrat.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/template-contrats/:id",
+      "handler": "template-contrat.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
