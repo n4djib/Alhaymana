@@ -1,21 +1,16 @@
 import React from 'react'
+import Link from 'next/link'
 
 import AppBar from '@mui/material/AppBar'
-
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 
 
 const Header = () => {
@@ -37,15 +32,13 @@ const Header = () => {
                         variant="h6"
                         noWrap
                         component="div"
-                        // sx={{ display: { xs: 'none', sm: 'block' } }}
                         sx={{ display: { sm: 'block' } }}
                     >
-                        AL Haymana
+                        <Link href="/"><a style={{color: 'inherit'}}>AL Haymana</a></Link>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}> */}
                     <Box sx={{ display: { md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={5} color="error">
@@ -66,16 +59,12 @@ const Header = () => {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            // aria-controls={menuId}
                             aria-haspopup="true"
-                            // onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
                             <AccountCircle />
                         </IconButton>
-
                     </Box>
-
                 </Toolbar>
             </AppBar>
         </div>

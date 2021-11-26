@@ -11,12 +11,12 @@ import FileUploader from './FormUI/FileUploader'
 // import DateTimePicker from '../components/FormUI/DateTimePicker'
 
 import { API_URL } from '../utils/urls'
-import { createFormData } from '../utils/utilities'
+// import { createFormData } from '../utils/utilities'
 import styles from '../styles/FormElements.module.css'
 
 const initialValues= {
-    code: 'hh',
-    designation: 'hh',
+    code: '',
+    designation: '',
 }
 
 const validationSchema = Yup.object().shape({
@@ -24,50 +24,50 @@ const validationSchema = Yup.object().shape({
     designation: Yup.string().required('Required'),
 })
 
-
-// const createFormData = (file, ref, refId, field) => {
-//     const formData = new FormData()
-//     formData.append('files', file)
-//     formData.append('ref', ref)
-//     formData.append('refId', refId)
-//     formData.append('field', field)
-
-//     return formData
-// }
-
 const ArticleForm = () => {
     const [files, setFiles] = useState(null)
-
     const [showSnack, setShowSnack] = useState(false)
     const [message, setMessage] = useState('')
     const [severity, setSeverity] = useState('')
-
+    
     const onSubmit = async (values) => {
         try {
+            const formData = new FormData()
+            formData.append('data', JSON.stringify(values))
+            if(files !== null)
+                formData.append('files.image', files[0])
+            
             const resp = await axios.post(
                 `${API_URL}/articles`, 
-                values, 
+                formData, 
             )
             const data = await resp.data
-            console.log("data: ", data)
+            // console.log("data: ", data)
 
-            // upload the image and associate it to the new model
-            if (resp.status == 200 && files !== null){
-                const file = files[0]
+            // const resp = await axios.post(
+            //     `${API_URL}/articles`, 
+            //     values, 
+            // )
+            // const data = await resp.data
+            // console.log("data: ", data)
+
+            // // upload the image and associate it to the new model
+            // if (resp.status == 200 && files !== null){
+            //     const file = files[0]
                 
-                const ref = 'article'
-                const refId = String(data.id)
-                const field = 'image'
-                const formData = createFormData(file, ref, refId, field)
+            //     const ref = 'article'
+            //     const refId = String(data.id)
+            //     const field = 'image'
+            //     const formData = createFormData(file, ref, refId, field)
                 
-                const resp_img = await axios.post(
-                    `${API_URL}/upload`, 
-                    formData, 
-                )
-                const data_img = await resp_img.data
-                console.log("data_img: ", data_img)
-            }
-    
+            //     const resp_img = await axios.post(
+            //         `${API_URL}/upload`, 
+            //         formData, 
+            //     )
+            //     const data_img = await resp_img.data
+            //     console.log("data_img: ", data_img)
+            // }
+
             setSeverity('success')
             setMessage(`Msg: ${values.code} ${values.designation}`)
             setShowSnack(true)
@@ -90,6 +90,7 @@ const ArticleForm = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
+                enableReinitialize
             >
                 <Form>
                     <div className={styles.formElement}>

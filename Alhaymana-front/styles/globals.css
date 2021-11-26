@@ -1,14 +1,38 @@
+@import url("http://fonts.cdnfonts.com/css/helvetica-neue-9");
+
 html,
 body {
   padding: 0;
   margin: 0;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  color: blue;
 }
 
-* {
-  box-sizing: border-box;
+a:link {
+  text-decoration: none;
+  color: blue;
+}
+
+a:visited {
+  text-decoration: none;
+  color: blue;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+a:active {
+  text-decoration: underline;
+  color: blue;
 }
