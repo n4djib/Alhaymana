@@ -1,3 +1,20 @@
 .container {
   margin: 15px;
 }
+
+.BoxLink {
+  display: inline-block;
+  padding: "10px";
+}
+
+.BoxLink_Paper {
+  background-color: lightblue;
+  text-align: center;
+  padding: 50px 0;
+  font-size: 24px;
+  color: rgb(43, 42, 42);
+}
+
+.BoxLink_Paper:hover {
+  cursor: pointer;
+}

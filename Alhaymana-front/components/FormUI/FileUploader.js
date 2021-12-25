@@ -13,10 +13,19 @@ const Icon = ({children, ...otherProps}) => {
 }
 
 const FileUploader = ({legend, handleChange, ...otherOptions}) => {
+    const [file, setFile] = useState(null)
+
+    const internalHandleChange = (event) => {
+        handleChange(event)
+        setFile(URL.createObjectURL(event.target.files[0]))
+        console.log(URL.createObjectURL(event.target.files[0]))
+    }
+
     const config = {
         variant: 'outlined',
         ...otherOptions,
-        onChange: handleChange,
+        // onChange: handleChange,
+        onChange: internalHandleChange,
     }
 
     return (
@@ -35,6 +44,7 @@ const FileUploader = ({legend, handleChange, ...otherOptions}) => {
                 <AccountBox variant={config.variant} fontSize="medium" />
                 {legend}
             </Icon>
+            <img src={file} style={{maxWidth: 250}}/>
         </label> 
     )
 }

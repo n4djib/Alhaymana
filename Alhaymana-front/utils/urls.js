@@ -14,3 +14,11 @@ export const getAgentThumbnail = (agent) => {
     const thumbnail_url = agent.photo.formats.thumbnail.url
     return createImgUrl(thumbnail_url)
 }
+
+export const getThumbnail = (image) => {
+    if(image.formats === null || image.formats === undefined)
+        return ""
+
+    const thumbnail_url = image.formats.thumbnail.url
+    return createImgUrl(thumbnail_url)
+}

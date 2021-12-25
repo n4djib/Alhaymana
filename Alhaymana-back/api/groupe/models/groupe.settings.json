@@ -15,8 +15,8 @@
       "type": "string"
     },
     "site": {
-      "model": "site",
-      "via": "groupes"
+      "via": "groupes",
+      "model": "site"
     },
     "chef_groupe": {
       "type": "string"

@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "sites",
   "info": {
-    "name": "site"
+    "name": "site",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -17,15 +18,18 @@
     "adresse": {
       "type": "text"
     },
-    "coordonnees_gps": {
-      "type": "string"
-    },
     "chef_site": {
       "type": "string"
     },
     "groupes": {
       "via": "site",
       "collection": "groupe"
+    },
+    "gps_latitude": {
+      "type": "float"
+    },
+    "gps_longitude": {
+      "type": "float"
     }
   }
 }

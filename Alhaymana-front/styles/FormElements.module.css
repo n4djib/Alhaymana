@@ -1,6 +1,6 @@
 .Form {
-  /* margin: 15px; */
-  height: 100vh; /********  remove this *********/
+  margin: 10px;
+  height: 90vh; /********  remove this *********/
 }
 
 .formElement {

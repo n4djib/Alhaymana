@@ -3,12 +3,10 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 
-// import { useRouter } from 'next/router'
-
 import Textfield from '../components/FormUI/Textfield'
 import Button from '../components/FormUI/Button'
 import Snack from './UI/Snack'
-import FileUploader from './FormUI/FileUploader'
+// import FileUploader from './FormUI/FileUploader'
 
 // import DateTimePicker from '../components/FormUI/DateTimePicker'
 
@@ -16,35 +14,39 @@ import { API_URL } from '../utils/urls'
 // import { createFormData } from '../utils/utilities'
 import styles from '../styles/FormElements.module.css'
 
-
 const initialValues= {
-    code: '',
-    designation: '',
+    nom: '',
+    adresse: '',
+    chef_site: '',
+    gps_latitude: '',
+    gps_longitude: '',
 }
 
 const validationSchema = Yup.object().shape({
-    code: Yup.string().required('Required'),
-    designation: Yup.string().required('Required'),
+    nom: Yup.string().required('Required'),
+    adresse: Yup.string().required('Required'),
+    chef_site: Yup.string(),
+    // gps_latitude: Yup.string(),
+    // gps_longitude: Yup.string(),
 })
 
-const ArticleForm = () => {
-    const [files, setFiles] = useState(null)
+const SiteForm = () => {
+    // const [files, setFiles] = useState(null)
     const [showSnack, setShowSnack] = useState(false)
     const [message, setMessage] = useState('')
     const [severity, setSeverity] = useState('')
-
-    // const router = useRouter()
     
     const onSubmit = async (values) => {
         try {
             const formData = new FormData()
             formData.append('data', JSON.stringify(values))
-            if(files !== null)
-                formData.append('files.image', files[0])
+            // if(files !== null)
+            //     formData.append('files.image', files[0])
             
             const resp = await axios.post(
-                `${API_URL}/articles`, 
+                `${API_URL}/sites`, 
                 formData, 
+                // values, 
             )
             const data = await resp.data
             // console.log("data: ", data)
@@ -52,9 +54,6 @@ const ArticleForm = () => {
             setSeverity('success')
             setMessage(`Msg: ${values.code} ${values.designation}`)
             setShowSnack(true)
-
-            //useRouter
-            // router.push('/articles')
         } catch (err) {
             console.log("err", err)
             setSeverity('error')
@@ -63,13 +62,13 @@ const ArticleForm = () => {
         }
     }
     
-    const handleFileChange = event => {
-        setFiles(event.target.files)
-    }
+    // const handleFileChange = event => {
+    //     setFiles(event.target.files)
+    // }
 
     return (
         <div className={styles.Form} style={{margin: 25}}>
-            <h3>Article Form</h3>
+            <h3>Site Form</h3>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -79,23 +78,42 @@ const ArticleForm = () => {
                 <Form>
                     <div className={styles.formElement}>
                         <Textfield
-                            name="code" 
-                            label="Code" 
+                            name="nom" 
+                            label="Nom" 
                         />
                     </div>
                     <div className={styles.formElement}>
                         <Textfield
-                            name="designation" 
-                            label="Designation" 
+                            name="adresse" 
+                            label="Adresse" 
                         />
                     </div>
                     <div className={styles.formElement}>
+                        <Textfield
+                            name="chef_site" 
+                            label="Chef Site" 
+                        />
+                    </div>
+                    <div className={styles.formElement}>
+                        <Textfield
+                            name="gps_latitude" 
+                            label="GPS Latitude" 
+                        />
+                    </div>
+                    <div className={styles.formElement}>
+                        <Textfield
+                            name="gps_longitude" 
+                            label="GPS Longitude" 
+                        />
+                    </div>
+                    
+                    {/* <div className={styles.formElement}>
                         <FileUploader
                             // name="image"
                             legend="Image d'article"
                             handleChange={handleFileChange}
                         />
-                    </div>
+                    </div> */}
                     <div className={styles.formElement}>
                         <Button >
                             Submit
@@ -113,4 +131,4 @@ const ArticleForm = () => {
     )
 }
 
-export default ArticleForm
+export default SiteForm

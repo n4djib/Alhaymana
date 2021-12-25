@@ -18,10 +18,12 @@
       "unique": true
     },
     "nom": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "prenom": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "nom_arab": {
       "type": "string"

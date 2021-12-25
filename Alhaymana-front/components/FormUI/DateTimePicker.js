@@ -36,6 +36,7 @@ const DateTimePickerWrapper = ({name, label, legend, ...otherOptions}) => {
                 <FormGroup>
                     <DatePicker
                         // mask="'__/__/____'"
+                        label={label}
                         {...config}
                         value={value}
                         onChange={(newValue) => setValue(newValue)}

@@ -10,18 +10,13 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 const BreadcrumbsWrapper = () => {
 
     const breadcrumbs = [
-        <Link 
-            underline="hover" key="1" color="inherit" href="/" 
-            // onClick={handleClick}
+        <Link key="1" color="inherit" underline="hover" 
+            href="/" 
         >
             Home
         </Link>,
-        <Link
-            underline="hover"
-            key="2"
-            color="inherit"
-            href="/getting-started/installation/"
-            // onClick={handleClick}
+        <Link key="2" color="inherit" underline="hover" 
+            href="/articles/"
         >
           Core
         </Link>,
@@ -38,7 +33,6 @@ const BreadcrumbsWrapper = () => {
                 aria-label="breadcrumb"
             >
                 {breadcrumbs}
-                {/* Breadcrumbs */}
             </Breadcrumbs>
         </div>
     )
