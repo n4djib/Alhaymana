@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -11,40 +11,51 @@ import Snack from "./UI/Snack";
 // import DateTimePicker from '../components/FormUI/DateTimePicker'
 
 import { API_URL } from "../utils/urls";
+import { getSites } from "../utils/apis";
+
 // import { createFormData } from '../utils/utilities'
 import styles from "../styles/FormElements.module.css";
+import Select from "../components/FormUI/Select";
 
 const initialValues = {
   nom: "",
-  adresse: "",
-  chef_site: "",
-  gps_latitude: "",
-  gps_longitude: "",
+  chef_groupe: "",
+  site: "" /*******************  check the value ***********************/,
 };
 
 const validationSchema = Yup.object().shape({
   nom: Yup.string().required("Required"),
-  adresse: Yup.string().required("Required"),
-  chef_site: Yup.string(),
-  // gps_latitude: Yup.string(),
-  // gps_longitude: Yup.string(),
+  chef_groupe: Yup.string(),
+  //
+  // site
+  //
 });
 
-const SiteForm = ({ snackOnSuccess }) => {
+const GroupeForm = () => {
   // const [files, setFiles] = useState(null)
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
 
+  const [siteOptions, setSiteOptions] = useState({});
+
   const onSubmit = async (values) => {
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));
+      // if(files !== null)
+      //     formData.append('files.image', files[0])
 
-      const resp = await axios.post(`${API_URL}/sites`, formData);
+      const resp = await axios.post(
+        `${API_URL}/groupes`,
+        formData
+        // values,
+      );
       const data = await resp.data;
+      // console.log("data: ", data)
 
-      snackOnSuccess("success", "Soumettre avec succès");
+      setSeverity("success");
+      setMessage(`Msg: ${values.code} ${values.designation}`);
       setShowSnack(true);
     } catch (err) {
       console.log("err", err);
@@ -54,8 +65,27 @@ const SiteForm = ({ snackOnSuccess }) => {
     }
   };
 
+  // const handleFileChange = event => {
+  //     setFiles(event.target.files)
+  // }
+
+  //   const siteOptions = {};
+
+  useEffect(async () => {
+    //get sites
+    const _sitesOptions = {};
+    const sites = await getSites();
+    for (const key in sites) {
+      _sitesOptions[sites[key].id] = sites[key].nom;
+    }
+    console.log(sites);
+    console.log(_sitesOptions);
+    setSiteOptions(_sitesOptions);
+  }, []);
+
   return (
     <div className={styles.Form} style={{ margin: 25 }}>
+      <h3>Creation de Groupe</h3>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -67,20 +97,19 @@ const SiteForm = ({ snackOnSuccess }) => {
             <Textfield name="nom" label="Nom" />
           </div>
           <div className={styles.formElement}>
-            <Textfield name="adresse" label="Adresse" />
+            <Textfield name="chef_groupe" label="Chef de Groupe" />
           </div>
           <div className={styles.formElement}>
-            <Textfield name="chef_site" label="Chef Site" />
-          </div>
-          <div className={styles.formElement}>
-            <Textfield name="gps_latitude" label="GPS Latitude" />
-          </div>
-          <div className={styles.formElement}>
-            <Textfield name="gps_longitude" label="GPS Longitude" />
+            <Select
+              name="site"
+              label="Site"
+              options={siteOptions}
+              style={{ width: 250 }}
+            />
           </div>
 
           <div className={styles.formElement}>
-            <Button>Soumettre</Button>
+            <Button>Submit</Button>
           </div>
         </Form>
       </Formik>
@@ -94,4 +123,4 @@ const SiteForm = ({ snackOnSuccess }) => {
   );
 };
 
-export default SiteForm;
+export default GroupeForm;

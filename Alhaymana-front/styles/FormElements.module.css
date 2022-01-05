@@ -1,8 +1,12 @@
 .Form {
-  margin: 10px;
-  height: 90vh; /********  remove this *********/
+  margin: 25px;
+  /* height: 90vh;  */
 }
 
 .formElement {
   margin: 10px 0px;
+}
+
+.list {
+  margin: 20px;
 }

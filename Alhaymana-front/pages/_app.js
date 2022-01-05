@@ -1,7 +1,6 @@
+import Header from "../components/UI/Header";
 
-import Header from '../components/UI/Header'
-
-import '../styles/globals.css'
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,7 +8,7 @@ function MyApp({ Component, pageProps }) {
       <Header />
       <Component {...pageProps} />
     </div>
-  ) 
+  );
 }
 
-export default MyApp
+export default MyApp;
