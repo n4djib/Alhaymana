@@ -83,10 +83,10 @@ const AgentCreate = ({ snack }) => {
     email: "",
     prenom_pere: "",
     nom_prenom_mere: "",
-    situation_familiale: "",
     // photo: "",
+    situation_familiale: null,
     sexe: "M",
-    groupe_sanguin: "",
+    groupe_sanguin: null,
   };
 
   const validationSchema = Yup.object().shape({
@@ -113,6 +113,8 @@ const AgentCreate = ({ snack }) => {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));
       if (files !== null) formData.append("files.photo", files[0]);
+
+      console.log("values: ", values);
 
       const data = await createAgent(formData);
       snack("success", "Soumettre avec succès", false);

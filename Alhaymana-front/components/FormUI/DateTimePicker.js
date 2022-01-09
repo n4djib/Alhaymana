@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 
-import TextField from "@mui/material/TextField";
 import frLocale from "date-fns/locale/fr";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { useField, useFormikContext } from "formik";
+
+import {
+  TextField,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+} from "@mui/material";
 
 const DateTimePickerWrapper = ({
   name,
@@ -14,12 +21,11 @@ const DateTimePickerWrapper = ({
   value,
   ...otherOptions
 }) => {
-  const [val, setVal] = useState(value);
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
 
   const config = {
-    type: "date",
+    // type: "date",
     variant: "outlined",
     InputLabelProps: {
       shrink: true,
@@ -30,33 +36,22 @@ const DateTimePickerWrapper = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
-      <DatePicker
-        label={label}
-        value={val}
-        onChange={(newValue) => {
-          setVal(newValue);
-          setFieldValue(name, newValue);
-          console.log("changed: ", newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
+      <FormControl>
+        <FormLabel component="legend">{legend}</FormLabel>
+        <FormGroup>
+          <DatePicker
+            {...config}
+            label={label}
+            onChange={(newValue) => {
+              setFieldValue(name, newValue);
+            }}
+            renderInput={(params) => (
+              <TextField value={value} {...params} autoComplete="off" />
+            )}
+          />
+        </FormGroup>
+      </FormControl>
     </LocalizationProvider>
-
-    // <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
-    //   <FormControl>
-    //     <FormLabel component="legend">{legend}</FormLabel>
-    //     <FormGroup>
-    //       <DatePicker
-    //         // mask="'__/__/____'"
-    //         label={label}
-    //         {...config}
-    //         value={value}
-    //         onChange={(newValue) => setValue(newValue)}
-    //         renderInput={(params) => <TextField {...params} />}
-    //       />
-    //     </FormGroup>
-    //   </FormControl>
-    // </LocalizationProvider>
   );
 };
 

@@ -17,8 +17,6 @@ import {
 
 import styles from "../../styles/FormElements.module.css";
 
-// import { useRouter } from "next/router";
-
 const FormTextfield = (props) => (
   <div className={styles.formElement}>
     <Textfield {...props} />
@@ -62,27 +60,27 @@ const fill_unique_lists = (agents, current_agent) => {
 };
 
 const initialValues = {
-  matricule: "",
-  nom: "",
-  prenom: "",
-  nom_arab: "",
-  prenom_arab: "",
-  date_naissance: null,
-  lieu_naissance: "",
-  cin: "",
-  cin_delivrer_par: "",
-  cin_delivrer_le: null,
-  cnas: "",
-  num_acte_naissance: "",
-  telephone: "",
-  adresse: "",
-  email: "",
-  prenom_pere: "",
-  nom_prenom_mere: "",
-  situation_familiale: "",
-  // photo: "",
-  sexe: "",
-  groupe_sanguin: "",
+  // matricule: "",
+  // nom: "",
+  // prenom: "",
+  // nom_arab: "",
+  // prenom_arab: "",
+  // date_naissance: null,
+  // lieu_naissance: "",
+  // cin: "",
+  // cin_delivrer_par: "",
+  // cin_delivrer_le: null,
+  // cnas: "",
+  // num_acte_naissance: "",
+  // telephone: "",
+  // adresse: "",
+  // email: "",
+  // prenom_pere: "",
+  // nom_prenom_mere: "",
+  // // photo: "",
+  // situation_familiale: null,
+  // sexe: null,
+  // groupe_sanguin: null,
 };
 
 const initializeFormik = (record) => {
@@ -91,12 +89,8 @@ const initializeFormik = (record) => {
   initialValues.prenom = record.prenom;
   initialValues.nom_arab = record.nom_arab;
   initialValues.prenom_arab = record.prenom_arab;
-
-  initialValues.date_naissance = new Date(record.date_naissance);
-  console.log();
-  console.log("11111: ", record.date_naissance);
-  console.log("22222: ", initialValues.date_naissance);
-
+  // initialValues.date_naissance = new Date(record.date_naissance);
+  initialValues.date_naissance = record.date_naissance;
   initialValues.lieu_naissance = record.lieu_naissance;
   initialValues.cin = record.cin;
   initialValues.cin_delivrer_par = record.cin_delivrer_par;
@@ -117,10 +111,6 @@ const initializeFormik = (record) => {
 const AgentEdit = ({ agent, snack }) => {
   const [files, setFiles] = useState(null);
   const [, setRefresh] = useState(false);
-
-  // const router = useRouter();
-  // console.log("Edit agent: ", agent);
-  // console.log("1 initialValues: ", initialValues);
 
   const validationSchema = Yup.object().shape({
     matricule: Yup.string()
@@ -144,7 +134,6 @@ const AgentEdit = ({ agent, snack }) => {
     const agents = await getAgents();
     await fill_unique_lists(agents, agent);
     await initializeFormik(agent);
-    // console.log("2 initialValues: ", initialValues);
     setRefresh(true);
   }, []);
 
@@ -185,11 +174,15 @@ const AgentEdit = ({ agent, snack }) => {
             handleChange={handleFileChange}
             image={agent.photo}
           />
+
           <FormDateTimePicker name="date_naissance" label="Date Naissance" />
+
           <FormTextfield name="lieu_naissance" label="Lieu Naissance" />
           <FormTextfield name="cin" label="CIN *" />
           <FormTextfield name="cin_delivrer_par" label="CIN Delivrer par" />
+
           <FormDateTimePicker name="cin_delivrer_le" label="CIN Delivrer le" />
+
           <FormTextfield name="cnas" label="CNAS *" />
           <FormTextfield
             name="num_acte_naissance"
