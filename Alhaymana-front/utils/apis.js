@@ -17,6 +17,21 @@ export const getAgent = async (id) => {
   return await res.data;
 };
 
+export const createAgent = async (formData) => {
+  const resp = await axios.post(`${API_URL}/agents`, formData);
+  const data = await resp.data;
+};
+
+export const updateAgent = async (id, formData) => {
+  const resp = await axios.put(`${API_URL}/agents/${id}`, formData);
+  const data = await resp.data;
+};
+
+export const deleteAgent = async (id) => {
+  const res = await axios.delete(`${API_URL}/agents/${id}`);
+  return await res.data;
+};
+
 export const getArticles = async () => {
   const res = await axios(`${API_URL}/articles`);
   return await res.data;
@@ -54,5 +69,10 @@ export const getGroupes = async () => {
 
 export const getDecharges = async () => {
   const res = await axios(`${API_URL}/decharges`);
+  return await res.data;
+};
+
+export const getDechargesByAgent = async (agent_id) => {
+  const res = await axios(`${API_URL}/decharges?agent=${agent_id}`);
   return await res.data;
 };

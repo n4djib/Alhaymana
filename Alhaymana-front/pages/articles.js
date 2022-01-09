@@ -16,18 +16,19 @@ import ArticleCreate from "../components/Forms/ArticleCreate";
 import ArticleEdit from "../components/Forms/ArticleEdit";
 import Snack from "../components/UI/Snack";
 import ConfirmDialog from "../components/UI/ConfirmDialog";
-
 import { fetcher, getArticles, deleteArticle } from "../utils/apis";
 import { API_URL, getThumbnail } from "../utils/urls";
 
 import styles from "../styles/FormElements.module.css";
 
 const articles = ({ articles }) => {
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openCreatePopup, setOpenCreatePopup] = useState(false);
+  const [openEditPopup, setOpenEditPopup] = useState(false);
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [editedRecord, setEditedRecord] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
   const { data, error } = useSWR(`${API_URL}/articles`, fetcher, {
@@ -38,74 +39,8 @@ const articles = ({ articles }) => {
     articles = data;
   }
 
-  const _article = {
-    id: 124,
-    code: "bbbb updated",
-    designation: "ccc",
-    published_at: "2022-01-03T23:08:25.256Z",
-    created_at: "2022-01-03T23:08:25.262Z",
-    updated_at: "2022-01-04T13:54:02.100Z",
-    image: {
-      id: 53,
-      name: "Multitunnel.PNG",
-      alternativeText: null,
-      caption: null,
-      width: 811,
-      height: 974,
-      formats: {
-        thumbnail: {
-          name: "thumbnail_Multitunnel.PNG",
-          hash: "thumbnail_Multitunnel_0c854c53d0",
-          ext: ".PNG",
-          mime: "image/png",
-          width: 130,
-          height: 156,
-          size: 19.61,
-          path: null,
-          url: "/uploads/thumbnail_Multitunnel_0c854c53d0.PNG",
-        },
-        medium: {
-          name: "medium_Multitunnel.PNG",
-          hash: "medium_Multitunnel_0c854c53d0",
-          ext: ".PNG",
-          mime: "image/png",
-          width: 624,
-          height: 750,
-          size: 201.12,
-          path: null,
-          url: "/uploads/medium_Multitunnel_0c854c53d0.PNG",
-        },
-        small: {
-          name: "small_Multitunnel.PNG",
-          hash: "small_Multitunnel_0c854c53d0",
-          ext: ".PNG",
-          mime: "image/png",
-          width: 416,
-          height: 500,
-          size: 113.92,
-          path: null,
-          url: "/uploads/small_Multitunnel_0c854c53d0.PNG",
-        },
-      },
-      hash: "Multitunnel_0c854c53d0",
-      ext: ".PNG",
-      mime: "image/png",
-      size: 69,
-      url: "/uploads/Multitunnel_0c854c53d0.PNG",
-      previewUrl: null,
-      provider: "local",
-      provider_metadata: null,
-      created_at: "2022-01-03T23:08:25.747Z",
-      updated_at: "2022-01-03T23:08:25.747Z",
-    },
-    decharges: [],
-  };
-
-  const [editedArticle, setEditedArticle] = useState(null);
-  const [openEditPopup, setOpenEditPopup] = useState(false);
-
-  const editArticle = (article) => {
-    setEditedArticle(article);
+  const editRecord = (article) => {
+    setEditedRecord(article);
     setOpenEditPopup(true);
   };
 
@@ -169,8 +104,7 @@ const articles = ({ articles }) => {
                     <EditIcon
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        // console.log("edit ", article);
-                        editArticle(article);
+                        editRecord(article);
                       }}
                     />
                      
@@ -191,20 +125,25 @@ const articles = ({ articles }) => {
       <div>
         <Fab
           color="primary"
-          onClick={() => setOpenPopup(true)}
+          onClick={() => setOpenCreatePopup(true)}
           aria-label="add"
           style={{ margin: 7 }}
         >
           <AddIcon />
         </Fab>
       </div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
       <PopupDialog
         title="Mis a jour d'article"
         openPopup={openEditPopup}
         onClose={() => setOpenEditPopup(false)}
       >
         <ArticleEdit
-          article={editedArticle}
+          article={editedRecord}
           snack={(sev, msg, open) => {
             setMessage(msg);
             setSeverity(sev);
@@ -215,15 +154,15 @@ const articles = ({ articles }) => {
       </PopupDialog>
       <PopupDialog
         title="Creation d'un article"
-        openPopup={openPopup}
-        onClose={() => setOpenPopup(false)}
+        openPopup={openCreatePopup}
+        onClose={() => setOpenCreatePopup(false)}
       >
         <ArticleCreate
           snack={(sev, msg, open) => {
             setMessage(msg);
             setSeverity(sev);
             setShowSnack(true);
-            setOpenPopup(open);
+            setOpenCreatePopup(open);
           }}
         />
       </PopupDialog>

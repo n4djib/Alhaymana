@@ -1,25 +1,23 @@
-import React from 'react'
-import TextField from '@mui/material/TextField'
-import {useField} from 'formik'
+import React from "react";
+import TextField from "@mui/material/TextField";
+import { useField } from "formik";
 
-const Textfield = ({name, ...otherProps}) => {
-    const [field, meta] = useField(name)
+const Textfield = ({ name, ...otherProps }) => {
+  const [field, meta] = useField(name);
 
-    const config = {
-        fullWidth: true,
-        variant: 'outlined',
-        ...field,
-        ...otherProps,
-    }
-    
-    if (meta && meta.touched && meta.error) {
-        config.error = true
-        config.helperText = meta.error
-    }
+  const config = {
+    fullWidth: true,
+    variant: "outlined",
+    ...field,
+    ...otherProps,
+  };
 
-    return (
-        <TextField {...config} autoComplete="off" />
-    )
-}
+  if (meta && meta.touched && meta.error) {
+    config.error = true;
+    config.helperText = meta.error;
+  }
 
-export default Textfield
+  return <TextField {...config} autoComplete="off" />;
+};
+
+export default Textfield;

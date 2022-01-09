@@ -20,12 +20,18 @@ const validationSchema = Yup.object().shape({
   designation: Yup.string().required("Required"),
 });
 
+// const initializeFormik = (record) => {
+//   initialValues.code = record.code;
+//   initialValues.designation = record.designation;
+// };
+
 const ArticleEdit = ({ article, snack }) => {
   const [files, setFiles] = useState(null);
 
   useEffect(() => {
     initialValues.code = article.code;
     initialValues.designation = article.designation;
+    // initializeFormik(article)
   }, []);
 
   const onSubmit = async (values) => {
@@ -37,7 +43,8 @@ const ArticleEdit = ({ article, snack }) => {
       const data = await updateArticle(article.id, formData);
 
       snack("success", "Soumettre avec succès", false);
-    } catch (err) {
+    } catch (e) {
+      console.log(e);
       snack("error", "some error happened", true);
     }
   };

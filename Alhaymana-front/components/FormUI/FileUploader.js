@@ -5,14 +5,6 @@ import AccountBox from "@mui/icons-material/AccountBox";
 
 import { getThumbnail } from "../../utils/urls";
 
-const Icon = ({ children, ...otherProps }) => {
-  return (
-    <div>
-      <IconButton {...otherProps}>{children}</IconButton>
-    </div>
-  );
-};
-
 const FileUploader = ({ legend, handleChange, image, ...otherOptions }) => {
   const [file, setFile] = useState(null);
 
@@ -27,8 +19,8 @@ const FileUploader = ({ legend, handleChange, image, ...otherOptions }) => {
     }
   }, []);
 
-  console.log("image:", image);
-  console.log("file:", file);
+  // console.log("image:", image);
+  // console.log("file:", file);
 
   const config = {
     variant: "outlined",
@@ -51,6 +43,14 @@ const FileUploader = ({ legend, handleChange, image, ...otherOptions }) => {
       </Icon>
       <img src={file} style={{ maxWidth: 250 }} />
     </label>
+  );
+};
+
+const Icon = ({ children, ...otherProps }) => {
+  return (
+    <div>
+      <IconButton {...otherProps}>{children}</IconButton>
+    </div>
   );
 };
 

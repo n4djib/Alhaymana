@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 import AgentCard from "./AgentCard";
-
 import SearchInput from "./FormUI/SearchInput";
-// import { APP_URL } from '../utils/urls'
+import { useRouter } from "next/router";
 
-const AgentsList = ({ agents }) => {
+const AgentsList = ({ agents, onDelete }) => {
   const [searchWord, setSearchWord] = useState("");
+
+  const router = useRouter();
 
   return (
     <div>
@@ -39,11 +40,12 @@ const AgentsList = ({ agents }) => {
             );
           })
           .map((agent) => (
-            <Link key={agent.id} href={`/agents/${agent.id}`}>
-              <a>
-                <AgentCard key={agent.id} agent={agent} />
-              </a>
-            </Link>
+            <AgentCard
+              key={agent.id}
+              agent={agent}
+              onDelete={() => onDelete(agent.id)}
+              onClick={() => router.push(`/agent/${agent.id}`)}
+            />
           ))}
       </div>
     </div>

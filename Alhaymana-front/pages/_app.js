@@ -1,13 +1,15 @@
 import Header from "../components/UI/Header";
 
+import { AuthProvider } from "../contexts/AuthContext";
+
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <AuthProvider>
       <Header />
       <Component {...pageProps} />
-    </div>
+    </AuthProvider>
   );
 }
 

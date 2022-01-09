@@ -8,13 +8,14 @@ export const createImgUrl = (url) => {
   return `${API_URL}${url}`;
 };
 
-export const getAgentThumbnail = (agent) => {
-  if (agent.photo === null)
-    return createImgUrl("/uploads/thumbnail_ssss_e27d6f9235.png");
+// export const getAgentThumbnail = (agent) => {
+//   if (agent.photo === null)
+//     // return createImgUrl("/uploads/thumbnail_Empty_avatar_b19f97e300.jpg");
+//     return "";
 
-  const thumbnail_url = agent.photo.formats.thumbnail.url;
-  return createImgUrl(thumbnail_url);
-};
+//   const thumbnail_url = agent.photo.formats.thumbnail.url;
+//   return createImgUrl(thumbnail_url);
+// };
 
 export const getThumbnail = (image) => {
   if (image === null || image === undefined) return "";

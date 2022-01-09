@@ -28,10 +28,11 @@ const ArticleCreate = ({ snack }) => {
       formData.append("data", JSON.stringify(values));
       if (files !== null) formData.append("files.image", files[0]);
 
-      const data = await createArticle(formData);
+      console.log("formData:", formData);
 
+      const data = await createArticle(formData);
       snack("success", "Soumettre avec succès", false);
-    } catch (err) {
+    } catch (e) {
       snack("error", "some error happened", true);
     }
   };
