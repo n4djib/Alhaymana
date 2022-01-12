@@ -6,10 +6,10 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <Header />
-      <Component {...pageProps} />
-    </AuthProvider>
+    // <AuthProvider>
+    //   <Header />
+    <Component {...pageProps} />
+    // </AuthProvider>
   );
 }
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Fab from "@mui/material/Fab";
 import EditIcon from "@mui/icons-material/Edit";
+import CategoryIcon from "@mui/icons-material/Category";
+import PrintIcon from "@mui/icons-material/Print";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,6 +23,7 @@ import { API_URL } from "../../utils/urls";
 const agent = ({ agent }) => {
   const [decharges, setDecharges] = useState(null);
   const [openEditPopup, setOpenEditPopup] = useState(false);
+  const [openDechargesPopup, setOpenDechargesPopup] = useState(false);
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
@@ -41,7 +44,7 @@ const agent = ({ agent }) => {
         setDecharges(formatedDecharges[agent.id].decharges);
       }
     }
-  }, []);
+  }, [agent]);
 
   return (
     <div style={{ margin: 45 }}>
@@ -66,7 +69,8 @@ const agent = ({ agent }) => {
             <TR label="CIN Delivrer le" value={agent.cin_delivrer_le} />
             <TR label="CNAS" value={agent.cnas} />
             <TR label="Num Acte Naissance" value={agent.num_acte_naissance} />
-            <TR label="Telephone" value={agent.telephone} />
+            <TR label="Téléphone" value={agent.telephone} />
+            <TR label="deuxieme Téléphone" value={agent.telephone2} />
             <TR label="Adresse" value={agent.adresse} />
             <TR label="Email" value={agent.email} />
             <TR label="Prenom Pere" value={agent.prenom_pere} />
@@ -96,6 +100,25 @@ const agent = ({ agent }) => {
           style={{ margin: 7 }}
         >
           <EditIcon />
+        </Fab>
+        <Fab
+          color="primary"
+          variant="extended"
+          onClick={() => setOpenDechargesPopup(true)}
+          aria-label="add"
+          style={{ margin: 7 }}
+        >
+          <CategoryIcon />
+          Decharges
+        </Fab>
+        <Fab
+          color="primary"
+          variant="extended"
+          // onClick={() => setOpenDechargesPopup(true)}
+          aria-label="add"
+          style={{ margin: 7 }}
+        >
+          <PrintIcon />
         </Fab>
       </div>
       <div></div>

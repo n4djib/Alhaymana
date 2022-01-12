@@ -5,33 +5,21 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { useField, useFormikContext } from "formik";
+import { TextField, FormControl, FormGroup, FormLabel } from "@mui/material";
 
-import {
-  TextField,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-} from "@mui/material";
-
-const DateTimePickerWrapper = ({
-  name,
-  label,
-  legend,
-  value,
-  ...otherOptions
-}) => {
+const DatePickerWrapper = ({ name, label, legend, value, ...otherOptions }) => {
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
 
   const config = {
-    // type: "date",
+    ...field,
+    ...otherOptions,
     variant: "outlined",
     InputLabelProps: {
       shrink: true,
     },
-    ...field,
-    ...otherOptions,
+    label: label,
+    onChange: (newValue) => setFieldValue(name, newValue),
   };
 
   return (
@@ -41,13 +29,7 @@ const DateTimePickerWrapper = ({
         <FormGroup>
           <DatePicker
             {...config}
-            label={label}
-            onChange={(newValue) => {
-              setFieldValue(name, newValue);
-            }}
-            renderInput={(params) => (
-              <TextField value={value} {...params} autoComplete="off" />
-            )}
+            renderInput={(params) => <TextField value={value} {...params} />}
           />
         </FormGroup>
       </FormControl>
@@ -55,4 +37,4 @@ const DateTimePickerWrapper = ({
   );
 };
 
-export default DateTimePickerWrapper;
+export default DatePickerWrapper;

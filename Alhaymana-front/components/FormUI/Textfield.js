@@ -17,7 +17,7 @@ const Textfield = ({ name, ...otherProps }) => {
     config.helperText = meta.error;
   }
 
-  return <TextField {...config} autoComplete="off" />;
+  return <TextField {...config} autoComplete="off" fullWidth />;
 };
 
 export default Textfield;

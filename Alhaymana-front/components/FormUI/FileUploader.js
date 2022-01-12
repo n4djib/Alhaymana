@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import AccountBox from "@mui/icons-material/AccountBox";
-// import ImageIcon from '@mui/icons-material/Image'
 
 import { getThumbnail } from "../../utils/urls";
 
@@ -18,9 +17,6 @@ const FileUploader = ({ legend, handleChange, image, ...otherOptions }) => {
       setFile(getThumbnail(image));
     }
   }, []);
-
-  // console.log("image:", image);
-  // console.log("file:", file);
 
   const config = {
     variant: "outlined",
@@ -41,7 +37,7 @@ const FileUploader = ({ legend, handleChange, image, ...otherOptions }) => {
         <AccountBox variant={config.variant} fontSize="medium" />
         {legend}
       </Icon>
-      <img src={file} style={{ maxWidth: 250 }} />
+      {file && <img src={file} style={{ maxWidth: 250 }} />}
     </label>
   );
 };

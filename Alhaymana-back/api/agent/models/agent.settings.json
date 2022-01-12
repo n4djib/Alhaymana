@@ -56,6 +56,9 @@
     "telephone": {
       "type": "string"
     },
+    "telephone2": {
+      "type": "string"
+    },
     "adresse": {
       "type": "text"
     },

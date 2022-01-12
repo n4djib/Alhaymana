@@ -9,7 +9,8 @@ function PopupDialog(props) {
 
   return (
     <div className="PopupDialog">
-      <Dialog open={openPopup} fullWidth maxWidth="md">
+      {/* <Dialog open={openPopup} fullWidth maxWidth="md"> */}
+      <Dialog open={openPopup} fullWidth maxWidth="lg">
         <h2 style={{ marginLeft: 25, marginBottom: 0 }}>{title}</h2>
         {children}
         {onClose ? (

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
 import FileUploader from "../FormUI/FileUploader";
-import DateTimePicker from "../FormUI/DateTimePicker";
+import DatePicker from "../FormUI/DatePicker";
 import Select from "../FormUI/Select";
-import { getAgents } from "../../utils/apis";
-import { updateAgent } from "../../utils/apis";
+import { getAgents, updateAgent } from "../../utils/apis";
 import {
   situation_familiale_options,
   sexe_options,
@@ -34,6 +35,10 @@ const FormSelect = (props) => (
     <Select {...props} />
   </div>
 );
+
+const StyledGridItem = styled(Grid)(({ theme }) => ({
+  padding: 5,
+}));
 
 const mat_list = [];
 const cin_list = [];
@@ -73,6 +78,7 @@ const initialValues = {
   // cnas: "",
   // num_acte_naissance: "",
   // telephone: "",
+  // telephone2: "",
   // adresse: "",
   // email: "",
   // prenom_pere: "",
@@ -89,7 +95,6 @@ const initializeFormik = (record) => {
   initialValues.prenom = record.prenom;
   initialValues.nom_arab = record.nom_arab;
   initialValues.prenom_arab = record.prenom_arab;
-  // initialValues.date_naissance = new Date(record.date_naissance);
   initialValues.date_naissance = record.date_naissance;
   initialValues.lieu_naissance = record.lieu_naissance;
   initialValues.cin = record.cin;
@@ -99,6 +104,7 @@ const initializeFormik = (record) => {
   initialValues.cnas = record.cnas;
   initialValues.num_acte_naissance = record.num_acte_naissance;
   initialValues.telephone = record.telephone;
+  initialValues.telephone2 = record.telephone2;
   initialValues.adresse = record.adresse;
   initialValues.email = record.email;
   initialValues.prenom_pere = record.prenom_pere;
@@ -134,7 +140,7 @@ const AgentEdit = ({ agent, snack }) => {
     const agents = await getAgents();
     await fill_unique_lists(agents, agent);
     await initializeFormik(agent);
-    setRefresh(true);
+    await setRefresh(true);
   }, []);
 
   const onSubmit = async (values) => {
@@ -151,7 +157,7 @@ const AgentEdit = ({ agent, snack }) => {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handlePhotoChange = (event) => {
     setFiles(event.target.files);
   };
 
@@ -164,54 +170,104 @@ const AgentEdit = ({ agent, snack }) => {
         enableReinitialize
       >
         <Form>
-          <FormTextfield name="matricule" label="Matricule *" />
-          <FormTextfield name="nom" label="Nom *" />
-          <FormTextfield name="prenom" label="Prenom *" />
-          <FormTextfield name="nom_arab" label="اللقب بالعربي" dir="rtl" />
-          <FormTextfield name="prenom_arab" label="الاسم بالعربي" dir="rtl" />
-          <FileUploader
-            legend="Photo d'agent"
-            handleChange={handleFileChange}
-            image={agent.photo}
-          />
+          <Grid container>
+            <StyledGridItem item xs={12} sm={12} md={3}>
+              <Textfield name="matricule" label="Matricule *" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={4}>
+              <Textfield name="nom" label="Nom *" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={5}>
+              <Textfield name="prenom" label="Prenom *" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="prenom_arab" label="الاسم بالعربي" dir="rtl" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="nom_arab" label="اللقب بالعربي" dir="rtl" />
+            </StyledGridItem>
 
-          <FormDateTimePicker name="date_naissance" label="Date Naissance" />
+            <StyledGridItem item xs={12}>
+              <FileUploader
+                legend="Photo d'agent"
+                handleChange={handlePhotoChange}
+                image={agent.photo}
+              />
+            </StyledGridItem>
 
-          <FormTextfield name="lieu_naissance" label="Lieu Naissance" />
-          <FormTextfield name="cin" label="CIN *" />
-          <FormTextfield name="cin_delivrer_par" label="CIN Delivrer par" />
+            <StyledGridItem item xs={12} sm={4} md={3}>
+              <DatePicker name="date_naissance" label="Date Naissance" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={8} md={9}>
+              <Textfield name="lieu_naissance" label="Lieu Naissance" />
+            </StyledGridItem>
 
-          <FormDateTimePicker name="cin_delivrer_le" label="CIN Delivrer le" />
+            <StyledGridItem item xs={12} sm={4} md={4}>
+              <Textfield name="cin" label="CIN *" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={4} md={4}>
+              <Textfield name="cin_delivrer_par" label="CIN Delivrer par" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={4} md={4}>
+              <DatePicker name="cin_delivrer_le" label="CIN Delivrer le" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="cnas" label="CNAS *" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield
+                name="num_acte_naissance"
+                label="Numéro Acte de Naissance *"
+              />
+            </StyledGridItem>
 
-          <FormTextfield name="cnas" label="CNAS *" />
-          <FormTextfield
-            name="num_acte_naissance"
-            label="Num Acte Naissance *"
-          />
-          <FormTextfield name="telephone" label="telephone" />
-          <FormTextfield name="adresse" label="Adresse" />
-          <FormTextfield name="email" label="Email" />
-          <FormTextfield name="prenom_pere" label="Prenom de Pere" />
-          <FormTextfield name="nom_prenom_mere" label="Nom et Prenom de Mere" />
-          <FormSelect
-            name="situation_familiale"
-            label="Situation Familiale"
-            options={situation_familiale_options}
-            style={{ width: 245 }}
-          />
-          <FormSelect
-            name="sexe"
-            label="Sexe *"
-            options={sexe_options}
-            style={{ width: 245 }}
-          />
-          <FormSelect
-            name="groupe_sanguin"
-            label="Groupe Sanguin *"
-            options={groupe_sanguin_options}
-            style={{ width: 245 }}
-          />
-          <Button>Soumettre la modification</Button>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="email" label="Email" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="adresse" label="Adresse" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="telephone" label="telephone" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="telephone2" label="telephone 2" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="prenom_pere" label="Prenom de Pere" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} sm={6} md={6}>
+              <Textfield name="nom_prenom_mere" label="Nom et Prenom de Mere" />
+            </StyledGridItem>
+
+            <StyledGridItem item xs={12}>
+              <Select
+                name="situation_familiale"
+                label="Situation Familiale"
+                options={situation_familiale_options}
+                style={{ width: 270 }}
+              />
+            </StyledGridItem>
+            <StyledGridItem item xs={12}>
+              <Select
+                name="sexe"
+                label="Sexe *"
+                options={sexe_options}
+                style={{ width: 270 }}
+              />
+            </StyledGridItem>
+            <StyledGridItem item xs={12}>
+              <Select
+                name="groupe_sanguin"
+                label="Groupe Sanguin *"
+                options={groupe_sanguin_options}
+                style={{ width: 270 }}
+              />
+            </StyledGridItem>
+            <StyledGridItem item xs={12}>
+              <Button>Soumettre la modification</Button>
+            </StyledGridItem>
+          </Grid>
         </Form>
       </Formik>
     </div>
