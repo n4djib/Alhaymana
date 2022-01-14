@@ -5,51 +5,49 @@ import Grid from "@mui/material/Grid";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
-import FileUploader from "../FormUI/FileUploader";
-import { updateArticle } from "../../utils/apis";
+import Select from "../FormUI/Select";
+import { createGroupe, getSites } from "../../utils/apis";
 import StyledGridItem from "../FormUI/StyledGridItem";
 
 import styles from "../../styles/FormElements.module.css";
 
+const initialValues = {
+  nom: "",
+  chef_groupe: "",
+  site: null,
+};
+
 const validationSchema = Yup.object().shape({
-  code: Yup.string().required("Required"),
-  designation: Yup.string().required("Required"),
+  nom: Yup.string().required("Required"),
+  chef_groupe: Yup.string(),
+  // site: Yup.required("Required"),
 });
 
-// const initializeFormik = (record) => {
-//   initialValues.code = record.code;
-//   initialValues.designation = record.designation;
-// };
+const GroupeCreate = ({ snack }) => {
+  const [siteOptions, setSiteOptions] = useState({});
 
-const ArticleEdit = ({ article, snack }) => {
-  const [files, setFiles] = useState(null);
-
-  const initialValues = {
-    code: article.code,
-    designation: article.designation,
-    file: "",
-  };
-  // useEffect(() => {
-  //   initializeFormik(article);
-  // }, []);
+  //get sites
+  useEffect(async () => {
+    const _sitesOptions = {};
+    const sites = await getSites();
+    for (const key in sites) {
+      _sitesOptions[sites[key].id] = sites[key].nom;
+    }
+    setSiteOptions(_sitesOptions);
+  }, []);
 
   const onSubmit = async (values) => {
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));
-      if (files !== null) formData.append("files.image", files[0]);
+      // if (files !== null) formData.append("files.image", files[0]);
 
-      const data = await updateArticle(article.id, formData);
-
+      const data = await createGroupe(formData);
       snack("success", "Soumettre avec succès", false);
     } catch (e) {
-      console.log(e);
       snack("error", "some error happened", true);
+      console.log("e: ", e);
     }
-  };
-
-  const handleFileChange = (event) => {
-    setFiles(event.target.files);
   };
 
   return (
@@ -63,20 +61,22 @@ const ArticleEdit = ({ article, snack }) => {
         <Form>
           <Grid container>
             <StyledGridItem item xs={12}>
-              <Textfield name="code" label="Code" />
+              <Textfield name="nom" label="Nom" />
             </StyledGridItem>
             <StyledGridItem item xs={12}>
-              <Textfield name="designation" label="Designation" />
+              <Textfield name="chef_groupe" label="Chef de Groupe" />
             </StyledGridItem>
             <StyledGridItem item xs={12}>
-              <FileUploader
-                legend="Image d'article"
-                handleChange={handleFileChange}
-                image={article.image}
+              <Select
+                name="site"
+                label="Site"
+                options={siteOptions}
+                style={{ width: 270 }}
               />
             </StyledGridItem>
+
             <StyledGridItem item xs={12}>
-              <Button>Soumettre la modification</Button>
+              <Button>Soumettre</Button>
             </StyledGridItem>
           </Grid>
         </Form>
@@ -85,4 +85,4 @@ const ArticleEdit = ({ article, snack }) => {
   );
 };
 
-export default ArticleEdit;
+export default GroupeCreate;

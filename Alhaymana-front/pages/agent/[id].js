@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// import {useRouter } from "next/router"
+import Link from "next/link";
 import Fab from "@mui/material/Fab";
 import EditIcon from "@mui/icons-material/Edit";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -15,13 +17,12 @@ import PopupDialog from "../../components/UI/PopupDialog";
 import Snack from "../../components/UI/Snack";
 import DechargesList from "../../components/DechargesList";
 import AgentEdit from "../../components/Forms/AgentEdit";
+import DechargeCreate from "../../components/Forms/DechargeCreate";
 import { getThumbnail } from "../../utils/urls";
-import { formatDecharges } from "../../utils/utilities";
 import { fetcher, getAgent, getDechargesByAgent } from "../../utils/apis";
 import { API_URL } from "../../utils/urls";
 
 const agent = ({ agent }) => {
-  const [decharges, setDecharges] = useState(null);
   const [openEditPopup, setOpenEditPopup] = useState(false);
   const [openDechargesPopup, setOpenDechargesPopup] = useState(false);
   const [showSnack, setShowSnack] = useState(false);
@@ -36,25 +37,20 @@ const agent = ({ agent }) => {
     agent = data;
   }
 
-  useEffect(async () => {
-    const agentDecharges = await getDechargesByAgent(agent.id);
-    const formatedDecharges = await formatDecharges(agentDecharges);
-    if (formatedDecharges !== {}) {
-      if (formatedDecharges[agent.id] !== undefined) {
-        setDecharges(formatedDecharges[agent.id].decharges);
-      }
-    }
-  }, [agent]);
-
   return (
     <div style={{ margin: 45 }}>
+      <div style={{ marginBottom: 15 }}>
+        <Link href="/agents">
+          <a>&#x2B05; Retour à la liste des Agents</a>
+        </Link>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 500 }}>
           <TableBody>
             <TR label="Matricule" value={agent.matricule} />
             <TR label="Nom" value={agent.nom} />
             <TR label="Prenom" value={agent.prenom} />
-            <TR label="اللقب بالعربي" value={agent.nom_arab} />
+            {/* <TR label="اللقب بالعربي" value={agent.nom_arab} />
             <TR label="الاسم بالعربي" value={agent.prenom_arab} />
             <TableRow>
               <TableCell>Photo</TableCell>
@@ -77,15 +73,12 @@ const agent = ({ agent }) => {
             <TR label="Nom et Prenom Mere" value={agent.nom_prenom_mere} />
             <TR label="Situation Familiale" value={agent.situation_familiale} />
             <TR label="Sexe" value={agent.sexe} />
-            <TR label="Groupe Sanguin" value={agent.groupe_sanguin} />
+            <TR label="Groupe Sanguin" value={agent.groupe_sanguin} /> */}
             <TableRow>
               <TableCell colSpan={2}>
                 Decharges
                 <div style={{ paddingLeft: 100 }}>
-                  <DechargesList
-                    decharges={decharges}
-                    style={{ paddingLeft: 100 }}
-                  />
+                  <DechargesList agent={agent} style={{ paddingLeft: 100 }} />
                 </div>
               </TableCell>
             </TableRow>
@@ -105,7 +98,7 @@ const agent = ({ agent }) => {
           color="primary"
           variant="extended"
           onClick={() => setOpenDechargesPopup(true)}
-          aria-label="add"
+          aria-label="add decharge"
           style={{ margin: 7 }}
         >
           <CategoryIcon />
@@ -113,8 +106,7 @@ const agent = ({ agent }) => {
         </Fab>
         <Fab
           color="primary"
-          variant="extended"
-          // onClick={() => setOpenDechargesPopup(true)}
+          // onClick={() => {}}
           aria-label="add"
           style={{ margin: 7 }}
         >
@@ -127,9 +119,10 @@ const agent = ({ agent }) => {
       <div></div>
       <div></div>
       <PopupDialog
-        title="Mis a jour Agent"
+        title="Mettre à jour un Agent"
         openPopup={openEditPopup}
         onClose={() => setOpenEditPopup(false)}
+        maxWidth="lg"
       >
         <AgentEdit
           agent={agent}
@@ -141,6 +134,24 @@ const agent = ({ agent }) => {
           }}
         />
       </PopupDialog>
+
+      <PopupDialog
+        title="Creation de Décharges"
+        openPopup={openDechargesPopup}
+        onClose={() => setOpenDechargesPopup(false)}
+        maxWidth="lg"
+      >
+        <DechargeCreate
+          agent={agent}
+          snack={(sev, msg, open) => {
+            setMessage(msg);
+            setSeverity(sev);
+            setShowSnack(true);
+            setOpenDechargesPopup(open);
+          }}
+        />
+      </PopupDialog>
+
       <Snack
         open={showSnack}
         onClose={setShowSnack}
@@ -164,36 +175,33 @@ export async function getServerSideProps(context) {
   };
 }
 
-// export async function getStaticProps(context) {
-//   const { params } = context;
-//   const agent = await getAgent(params.id);
-//   return {
-//     props: {
-//       agent,
-//     },
-//     revalidate: 5,
-//   };
-// }
+/*export async function getStaticProps(context) {
+  const { params } = context;
+  const agent = await getAgent(params.id);
+  return {
+    props: {
+      agent,
+    },
+    revalidate: 5,
+  };
+}
 
-// export async function getStaticPaths() {
-//   const agents = await getAgents();
+export async function getStaticPaths() {
+  const agents = await getAgents();
 
-//   const paths = agents.map((agent) => ({ params: { id: String(agent.id) } }));
+  const paths = agents.map((agent) => ({ params: { id: String(agent.id) } }));
 
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
+  return {
+    paths,
+    fallback: false,
+  };
+}
+*/
 
 const TR = ({ label, value }) => (
   <TableRow>
     <TableCell>{label}</TableCell>
-    <TableCell
-    // style={{ paddingLeft: 60 }}
-    >
-      {value}
-    </TableCell>
+    <TableCell>{value}</TableCell>
   </TableRow>
 );
 

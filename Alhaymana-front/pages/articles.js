@@ -27,8 +27,8 @@ const articles = ({ articles }) => {
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
-  const [openConfirm, setOpenConfirm] = useState(false);
   const [editedRecord, setEditedRecord] = useState(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
   const { data, error } = useSWR(`${API_URL}/articles`, fetcher, {
@@ -44,7 +44,7 @@ const articles = ({ articles }) => {
     setOpenEditPopup(true);
   };
 
-  const handleDeleteArticle = async (id) => {
+  const handleDeleteRecord = async (id) => {
     try {
       const del = await deleteArticle(id);
       setMessage("deleted");
@@ -138,9 +138,10 @@ const articles = ({ articles }) => {
       <div></div>
       <div></div>
       <PopupDialog
-        title="Mis a jour d'article"
+        title="Mettre à jour l'Article"
         openPopup={openEditPopup}
         onClose={() => setOpenEditPopup(false)}
+        maxWidth="md"
       >
         <ArticleEdit
           article={editedRecord}
@@ -153,9 +154,10 @@ const articles = ({ articles }) => {
         />
       </PopupDialog>
       <PopupDialog
-        title="Creation d'un article"
+        title="Création d'un Article"
         openPopup={openCreatePopup}
         onClose={() => setOpenCreatePopup(false)}
+        maxWidth="md"
       >
         <ArticleCreate
           snack={(sev, msg, open) => {
@@ -168,7 +170,7 @@ const articles = ({ articles }) => {
       </PopupDialog>
       <ConfirmDialog
         open={openConfirm}
-        confirm={() => handleDeleteArticle(deleteId)}
+        confirm={() => handleDeleteRecord(deleteId)}
         close={() => {
           setOpenConfirm(false);
           setDeleteId(null);

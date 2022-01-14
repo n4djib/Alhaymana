@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
@@ -15,30 +14,9 @@ import {
   sexe_options,
   groupe_sanguin_options,
 } from "../../utils/constants";
+import StyledGridItem from "../FormUI/StyledGridItem";
 
 import styles from "../../styles/FormElements.module.css";
-
-const FormTextfield = (props) => (
-  <div className={styles.formElement}>
-    <Textfield {...props} />
-  </div>
-);
-
-const FormDateTimePicker = (props) => (
-  <div className={styles.formElement}>
-    <DateTimePicker {...props} />
-  </div>
-);
-
-const FormSelect = (props) => (
-  <div className={styles.formElement}>
-    <Select {...props} />
-  </div>
-);
-
-const StyledGridItem = styled(Grid)(({ theme }) => ({
-  padding: 5,
-}));
 
 const mat_list = [];
 const cin_list = [];
@@ -64,59 +42,33 @@ const fill_unique_lists = (agents, current_agent) => {
   }
 };
 
-const initialValues = {
-  // matricule: "",
-  // nom: "",
-  // prenom: "",
-  // nom_arab: "",
-  // prenom_arab: "",
-  // date_naissance: null,
-  // lieu_naissance: "",
-  // cin: "",
-  // cin_delivrer_par: "",
-  // cin_delivrer_le: null,
-  // cnas: "",
-  // num_acte_naissance: "",
-  // telephone: "",
-  // telephone2: "",
-  // adresse: "",
-  // email: "",
-  // prenom_pere: "",
-  // nom_prenom_mere: "",
-  // // photo: "",
-  // situation_familiale: null,
-  // sexe: null,
-  // groupe_sanguin: null,
-};
-
-const initializeFormik = (record) => {
-  initialValues.matricule = record.matricule;
-  initialValues.nom = record.nom;
-  initialValues.prenom = record.prenom;
-  initialValues.nom_arab = record.nom_arab;
-  initialValues.prenom_arab = record.prenom_arab;
-  initialValues.date_naissance = record.date_naissance;
-  initialValues.lieu_naissance = record.lieu_naissance;
-  initialValues.cin = record.cin;
-  initialValues.cin_delivrer_par = record.cin_delivrer_par;
-  initialValues.cin_delivrer_le = record.cin_delivrer_le;
-  // initialValues.photo = record.photo;
-  initialValues.cnas = record.cnas;
-  initialValues.num_acte_naissance = record.num_acte_naissance;
-  initialValues.telephone = record.telephone;
-  initialValues.telephone2 = record.telephone2;
-  initialValues.adresse = record.adresse;
-  initialValues.email = record.email;
-  initialValues.prenom_pere = record.prenom_pere;
-  initialValues.nom_prenom_mere = record.nom_prenom_mere;
-  initialValues.situation_familiale = record.situation_familiale;
-  initialValues.sexe = record.sexe;
-  initialValues.groupe_sanguin = record.groupe_sanguin;
-};
-
 const AgentEdit = ({ agent, snack }) => {
   const [files, setFiles] = useState(null);
   const [, setRefresh] = useState(false);
+
+  const initialValues = {
+    matricule: agent.matricule,
+    nom: agent.nom,
+    prenom: agent.prenom,
+    nom_arab: agent.nom_arab,
+    prenom_arab: agent.prenom_arab,
+    date_naissance: agent.date_naissance,
+    lieu_naissance: agent.lieu_naissance,
+    cin: agent.cin,
+    cin_delivrer_par: agent.cin_delivrer_par,
+    cin_delivrer_le: agent.cin_delivrer_le,
+    cnas: agent.cnas,
+    num_acte_naissance: agent.num_acte_naissance,
+    telephone: agent.telephone,
+    telephone2: agent.telephone2,
+    adresse: agent.adresse,
+    email: agent.email,
+    prenom_pere: agent.prenom_pere,
+    nom_prenom_mere: agent.nom_prenom_mere,
+    situation_familiale: agent.situation_familiale,
+    sexe: agent.sexe,
+    groupe_sanguin: agent.groupe_sanguin,
+  };
 
   const validationSchema = Yup.object().shape({
     matricule: Yup.string()
@@ -138,9 +90,7 @@ const AgentEdit = ({ agent, snack }) => {
 
   useEffect(async () => {
     const agents = await getAgents();
-    await fill_unique_lists(agents, agent);
-    await initializeFormik(agent);
-    await setRefresh(true);
+    fill_unique_lists(agents, agent);
   }, []);
 
   const onSubmit = async (values) => {

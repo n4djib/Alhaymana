@@ -11,20 +11,23 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import PopupDialog from "../components/UI/PopupDialog";
-import SiteForm from "../components/SiteForm";
+import SiteCreate from "../components/Forms/SiteCreate";
+import SiteEdit from "../components/Forms/SiteEdit";
 import Snack from "../components/UI/Snack";
 import ConfirmDialog from "../components/UI/ConfirmDialog";
 
 import useSWR from "swr";
 import { fetcher, getSites, deleteSite } from "../utils/apis";
-import { API_URL, getThumbnail } from "../utils/urls";
+import { API_URL } from "../utils/urls";
 
 const sites = ({ sites }) => {
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openCreatePopup, setOpenCreatePopup] = useState(false);
+  const [openEditPopup, setOpenEditPopup] = useState(false);
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [editedRecord, setEditedRecord] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
   const { data, error } = useSWR(`${API_URL}/sites`, fetcher, {
@@ -34,6 +37,25 @@ const sites = ({ sites }) => {
   if (data !== undefined) {
     sites = data;
   }
+
+  const editRecord = (site) => {
+    setEditedRecord(site);
+    setOpenEditPopup(true);
+  };
+
+  const handleDeleteRecord = async (id) => {
+    try {
+      const del = await deleteSite(id);
+      setMessage("deleted");
+      setSeverity("success");
+    } catch (e) {
+      setMessage("error");
+      setSeverity("error");
+    }
+    setOpenConfirm(false);
+    setDeleteId(null);
+    setShowSnack(true);
+  };
 
   return (
     <div style={{ margin: 30 }}>
@@ -69,7 +91,6 @@ const sites = ({ sites }) => {
                 <TableRow
                   key={site.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  // onClick={}
                 >
                   <TableCell component="th" sadressecope="row">
                     {index + 1}
@@ -83,7 +104,7 @@ const sites = ({ sites }) => {
                     <EditIcon
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        console.log("edit " + site.id);
+                        editRecord(site);
                       }}
                     />
                      
@@ -105,52 +126,62 @@ const sites = ({ sites }) => {
       <div>
         <Fab
           color="primary"
-          onClick={() => setOpenPopup(true)}
+          onClick={() => setOpenCreatePopup(true)}
           aria-label="add"
           style={{ margin: 7 }}
         >
           <AddIcon />
         </Fab>
       </div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
       <PopupDialog
-        title="Creation d'un Site"
-        openPopup={openPopup}
-        onClose={() => setOpenPopup(false)}
+        title="Mettre à jour le site"
+        openPopup={openEditPopup}
+        onClose={() => setOpenEditPopup(false)}
+        maxWidth="md"
       >
-        <SiteForm
-          snackOnSuccess={(sev, msg) => {
+        <SiteEdit
+          site={editedRecord}
+          snack={(sev, msg, open) => {
             setMessage(msg);
             setSeverity(sev);
-            setOpenPopup(false);
             setShowSnack(true);
+            setOpenEditPopup(open);
           }}
         />
       </PopupDialog>
+      <PopupDialog
+        title="Création d'un Site"
+        openPopup={openCreatePopup}
+        onClose={() => setOpenCreatePopup(false)}
+        maxWidth="md"
+      >
+        <SiteCreate
+          snack={(sev, msg, open) => {
+            setMessage(msg);
+            setSeverity(sev);
+            setShowSnack(true);
+            setOpenCreatePopup(open);
+          }}
+        />
+      </PopupDialog>
+      <ConfirmDialog
+        open={openConfirm}
+        confirm={() => handleDeleteRecord(deleteId)}
+        close={() => {
+          setOpenConfirm(false);
+          setDeleteId(null);
+        }}
+      />
       <Snack
         open={showSnack}
         onClose={setShowSnack}
         message={message}
         severity={severity}
-      />
-      <ConfirmDialog
-        open={openConfirm}
-        confirm={async () => {
-          try {
-            const del = await deleteSite(deleteId);
-            setMessage("deleted");
-            setSeverity("success");
-          } catch (e) {
-            setMessage("error");
-            setSeverity("error");
-          }
-          setOpenConfirm(false);
-          setDeleteId(null);
-          setShowSnack(true);
-        }}
-        close={() => {
-          setOpenConfirm(false);
-          setDeleteId(null);
-        }}
       />
     </div>
   );

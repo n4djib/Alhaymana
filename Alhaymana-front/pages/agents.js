@@ -71,9 +71,10 @@ const agents = ({ agents }) => {
       <div></div>
       <div></div>
       <PopupDialog
-        title="Creation d'un Agent"
+        title="Création d'un Agent"
         openPopup={openCreatePopup}
         onClose={() => setOpenCreatePopup(false)}
+        maxWidth="lg"
       >
         <AgentCreate
           snack={(sev, msg, open) => {

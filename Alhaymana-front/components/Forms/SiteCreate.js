@@ -1,47 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Grid from "@mui/material/Grid";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
-import FileUploader from "../FormUI/FileUploader";
-import { createArticle } from "../../utils/apis";
+import { createSite } from "../../utils/apis";
 import StyledGridItem from "../FormUI/StyledGridItem";
 
 import styles from "../../styles/FormElements.module.css";
 
 const initialValues = {
-  code: "",
-  designation: "",
+  nom: "",
+  adresse: "",
+  chef_site: "",
+  gps_latitude: "",
+  gps_longitude: "",
 };
 
 const validationSchema = Yup.object().shape({
-  code: Yup.string().required("Required"),
-  designation: Yup.string().required("Required"),
+  nom: Yup.string().required("Required"),
+  adresse: Yup.string().required("Required"),
+  chef_site: Yup.string(),
+  // gps_latitude: Yup.string(),
+  // gps_longitude: Yup.string(),
 });
 
-const ArticleCreate = ({ snack }) => {
-  const [files, setFiles] = useState(null);
-
+const SiteCreate = ({ snack }) => {
   const onSubmit = async (values) => {
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));
-      if (files !== null) formData.append("files.image", files[0]);
+      // if (files !== null) formData.append("files.image", files[0]);
 
-      // console.log("formData:", formData);
-      // console.log("initialValues:", initialValues);
+      console.log("formData:", formData);
 
-      const data = await createArticle(formData);
+      const data = await createSite(formData);
       snack("success", "Soumettre avec succès", false);
     } catch (e) {
       snack("error", "some error happened", true);
+      console.log("e: ", e);
     }
-  };
-
-  const handleFileChange = (event) => {
-    setFiles(event.target.files);
   };
 
   return (
@@ -55,17 +54,21 @@ const ArticleCreate = ({ snack }) => {
         <Form>
           <Grid container>
             <StyledGridItem item xs={12}>
-              <Textfield name="code" label="Code" />
+              <Textfield name="nom" label="Nom" />
             </StyledGridItem>
             <StyledGridItem item xs={12}>
-              <Textfield name="designation" label="Designation" />
+              <Textfield name="adresse" label="Adresse" />
             </StyledGridItem>
             <StyledGridItem item xs={12}>
-              <FileUploader
-                legend="Image d'article"
-                handleChange={handleFileChange}
-              />
+              <Textfield name="chef_site" label="Chef Site" />
             </StyledGridItem>
+            <StyledGridItem item xs={12} md={6}>
+              <Textfield name="gps_latitude" label="GPS Latitude" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12} md={6}>
+              <Textfield name="gps_longitude" label="GPS Longitude" />
+            </StyledGridItem>
+
             <StyledGridItem item xs={12}>
               <Button>Soumettre</Button>
             </StyledGridItem>
@@ -76,4 +79,4 @@ const ArticleCreate = ({ snack }) => {
   );
 };
 
-export default ArticleCreate;
+export default SiteCreate;

@@ -1,6 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-// import Textfield from "../components/FormUI/Textfield";
 
 const theme = createTheme({
   // direction: "rtl" // Both here and <body dir="rtl">

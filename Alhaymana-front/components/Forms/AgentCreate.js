@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
@@ -15,12 +14,9 @@ import {
   sexe_options,
   groupe_sanguin_options,
 } from "../../utils/constants";
+import StyledGridItem from "../FormUI/StyledGridItem";
 
 import styles from "../../styles/FormElements.module.css";
-
-const StyledGridItem = styled(Grid)(({ theme }) => ({
-  padding: 5,
-}));
 
 const mat_list = [];
 const cin_list = [];
@@ -141,7 +137,6 @@ const AgentCreate = ({ snack }) => {
             <StyledGridItem item xs={12} sm={6} md={6}>
               <Textfield name="nom_arab" label="اللقب بالعربي" dir="rtl" />
             </StyledGridItem>
-
             <StyledGridItem item xs={12}>
               <FileUploader
                 legend="Photo d'agent"

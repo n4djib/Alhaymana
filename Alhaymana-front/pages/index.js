@@ -96,13 +96,14 @@ export default function Home() {
       <BoxLink href="/sites">Sites</BoxLink>
 
       <ol>
-        <li>Décharges</li>
-        <li>agents edit and deletion</li>
-        <li>agents validation</li>
+        <li>how to Deploy</li>
+        <li>Sites & Groupes</li>
+        <li> check uniqueness</li>
+        <li>Agent Décharges</li>
         <li>Contrat & model</li>
         <li>Rotation</li>
         <li>Printing</li>
-        <li>Authentication</li>
+        <li>Authorization</li>
         <li></li>
       </ol>
     </div>

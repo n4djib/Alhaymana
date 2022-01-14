@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,12 +11,37 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import PopupDialog from "../components/UI/PopupDialog";
-import GroupeForm from "../components/GroupeForm";
-import { getGroupes } from "../utils/apis";
+import GroupeCreate from "../components/Forms/GroupeCreate";
+import GroupeEdit from "../components/Forms/GroupeEdit";
+import Snack from "../components/UI/Snack";
+import ConfirmDialog from "../components/UI/ConfirmDialog";
+
+import useSWR from "swr";
+import { fetcher, getGroupes, deleteGroupe } from "../utils/apis";
+import { API_URL } from "../utils/urls";
 
 const groupes = ({ groupes }) => {
-  const [openPopup, setOpenPopup] = useState(false);
-  const [openCreationForm, setOpenCreationForm] = useState(false);
+  const [openCreatePopup, setOpenCreatePopup] = useState(false);
+  const [openEditPopup, setOpenEditPopup] = useState(false);
+  const [showSnack, setShowSnack] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [editedRecord, setEditedRecord] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const { data, error } = useSWR(`${API_URL}/groupes`, fetcher, {
+    refreshInterval: 1,
+  });
+
+  if (data !== undefined) {
+    groupes = data;
+  }
+
+  const editRecord = (groupe) => {
+    setEditedRecord(groupe);
+    setOpenEditPopup(true);
+  };
 
   return (
     <div style={{ margin: 30 }}>
@@ -37,6 +64,7 @@ const groupes = ({ groupes }) => {
                 <TableCell>
                   <b>Site</b>
                 </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -44,7 +72,6 @@ const groupes = ({ groupes }) => {
                 <TableRow
                   key={groupe.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  // onClick={}
                 >
                   <TableCell component="th" sadressecope="row">
                     {index + 1}
@@ -52,7 +79,23 @@ const groupes = ({ groupes }) => {
                   <TableCell>{groupe.nom}</TableCell>
                   <TableCell>{groupe.chef_groupe}</TableCell>
                   <TableCell>
-                    {groupe.site ? <span>{groupe.site.nom}</span> : null}
+                    {groupe.site && <span>{groupe.site.nom}</span>}
+                  </TableCell>
+                  <TableCell>
+                    <EditIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        editRecord(groupe);
+                      }}
+                    />
+                     
+                    <DeleteIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setOpenConfirm(true);
+                        setDeleteId(groupe.id);
+                      }}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -64,19 +107,63 @@ const groupes = ({ groupes }) => {
       <div>
         <Fab
           color="primary"
-          onClick={() => setOpenPopup(true)}
+          onClick={() => setOpenCreatePopup(true)}
           aria-label="add"
           style={{ margin: 7 }}
         >
           <AddIcon />
         </Fab>
       </div>
-
-      {openPopup && (
-        <PopupDialog openPopup={openPopup} onClose={() => setOpenPopup(false)}>
-          <GroupeForm closeAction={() => setOpenPopup(false)} />
-        </PopupDialog>
-      )}
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <PopupDialog
+        title="Mettre à jour le Groupe"
+        openPopup={openEditPopup}
+        onClose={() => setOpenEditPopup(false)}
+        maxWidth="md"
+      >
+        <GroupeEdit
+          groupe={editedRecord}
+          snack={(sev, msg, open) => {
+            setMessage(msg);
+            setSeverity(sev);
+            setShowSnack(true);
+            setOpenEditPopup(open);
+          }}
+        />
+      </PopupDialog>
+      <PopupDialog
+        title="Création d'un Groupe fffffffff"
+        openPopup={openCreatePopup}
+        onClose={() => setOpenCreatePopup(false)}
+        maxWidth="md"
+      >
+        <GroupeCreate
+          snack={(sev, msg, open) => {
+            setMessage(msg);
+            setSeverity(sev);
+            setShowSnack(true);
+            setOpenCreatePopup(open);
+          }}
+        />
+      </PopupDialog>
+      <ConfirmDialog
+        open={openConfirm}
+        confirm={() => handleDeleteRecord(deleteId)}
+        close={() => {
+          setOpenConfirm(false);
+          setDeleteId(null);
+        }}
+      />
+      <Snack
+        open={showSnack}
+        onClose={setShowSnack}
+        message={message}
+        severity={severity}
+      />
     </div>
   );
 };

@@ -5,51 +5,58 @@ import Grid from "@mui/material/Grid";
 
 import Textfield from "../FormUI/Textfield";
 import Button from "../FormUI/Button";
-import FileUploader from "../FormUI/FileUploader";
-import { updateArticle } from "../../utils/apis";
+import Select from "../FormUI/Select";
+import DatePicker from "../FormUI/DatePicker";
+import { updateDecharge, getArticles } from "../../utils/apis";
 import StyledGridItem from "../FormUI/StyledGridItem";
 
 import styles from "../../styles/FormElements.module.css";
-
-const validationSchema = Yup.object().shape({
-  code: Yup.string().required("Required"),
-  designation: Yup.string().required("Required"),
-});
 
 // const initializeFormik = (record) => {
 //   initialValues.code = record.code;
 //   initialValues.designation = record.designation;
 // };
 
-const ArticleEdit = ({ article, snack }) => {
-  const [files, setFiles] = useState(null);
+const DechargeEdit = ({ decharge, snack }) => {
+  const [articleOptions, setArticleOptions] = useState({});
+
+  // console.log("");
+  // console.log("DechargeEdit decharge: ", decharge);
+  // console.log("");
 
   const initialValues = {
-    code: article.code,
-    designation: article.designation,
-    file: "",
+    matricule: decharge.matricule,
+    date: decharge.date,
+    article: decharge.articleId,
+    // agent: ,  // we don't change the agent
   };
-  // useEffect(() => {
-  //   initializeFormik(article);
-  // }, []);
+
+  const validationSchema = Yup.object().shape({
+    // code: Yup.string().required("Required"),
+    // designation: Yup.string().required("Required"),
+  });
+
+  useEffect(async () => {
+    const _articlesOptions = {};
+    const articles = await getArticles();
+    for (let key in articles) {
+      _articlesOptions[articles[key].id] = articles[key].code;
+    }
+    await setArticleOptions(_articlesOptions);
+  }, []);
 
   const onSubmit = async (values) => {
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));
-      if (files !== null) formData.append("files.image", files[0]);
+      // if (files !== null) formData.append("files.image", files[0]);
 
-      const data = await updateArticle(article.id, formData);
-
+      const data = await updateDecharge(decharge.id, formData);
       snack("success", "Soumettre avec succès", false);
     } catch (e) {
       console.log(e);
       snack("error", "some error happened", true);
     }
-  };
-
-  const handleFileChange = (event) => {
-    setFiles(event.target.files);
   };
 
   return (
@@ -63,18 +70,20 @@ const ArticleEdit = ({ article, snack }) => {
         <Form>
           <Grid container>
             <StyledGridItem item xs={12}>
-              <Textfield name="code" label="Code" />
-            </StyledGridItem>
-            <StyledGridItem item xs={12}>
-              <Textfield name="designation" label="Designation" />
-            </StyledGridItem>
-            <StyledGridItem item xs={12}>
-              <FileUploader
-                legend="Image d'article"
-                handleChange={handleFileChange}
-                image={article.image}
+              <Select
+                name="article"
+                label="Article"
+                options={articleOptions}
+                style={{ width: 245 }}
               />
             </StyledGridItem>
+            <StyledGridItem item xs={12}>
+              <Textfield name="matricule" label="Matricule (Code Interne)" />
+            </StyledGridItem>
+            <StyledGridItem item xs={12}>
+              <DatePicker name="date" label="Date" />
+            </StyledGridItem>
+
             <StyledGridItem item xs={12}>
               <Button>Soumettre la modification</Button>
             </StyledGridItem>
@@ -85,4 +94,4 @@ const ArticleEdit = ({ article, snack }) => {
   );
 };
 
-export default ArticleEdit;
+export default DechargeEdit;

@@ -5,21 +5,37 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import useSWR from "swr";
 
 import { getDecharges } from "../utils/apis";
-import { formatDecharges } from "../utils/utilities";
 import DechargesList from "../components/DechargesList";
+import { fetcher } from "../utils/apis";
+import { API_URL } from "../utils/urls";
 
-function decharges({ decharges }) {
-  const formattedDecharges = formatDecharges(decharges);
+function decharges({ agents }) {
+  const { data, error } = useSWR(`${API_URL}/decharges`, fetcher, {
+    refreshInterval: 1,
+  });
+
+  if (data !== undefined) {
+    const decharges = data;
+    const ids = [];
+    const _agents = [];
+    for (let i = 0; i < decharges.length; i++) {
+      if (decharges[i].agent)
+        if (!ids.includes(decharges[i].agent.id)) {
+          _agents.push(decharges[i].agent);
+          ids.push(decharges[i].agent.id);
+        }
+    }
+
+    agents = _agents;
+  }
 
   return (
     <div>
       <TableContainer>
-        <Table
-          // sx={{ minWidth: 650 }}
-          aria-label="simple table"
-        >
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>
@@ -34,12 +50,10 @@ function decharges({ decharges }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(formattedDecharges).map((key, index) => {
-              const agent = formattedDecharges[key];
-              const agent_decharges = formattedDecharges[key].decharges;
-              return (
+            {agents &&
+              agents.map((agent, index) => (
                 <TableRow
-                  key={key}
+                  key={agent.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -49,11 +63,10 @@ function decharges({ decharges }) {
                     {agent.nom} - {agent.prenom}
                   </TableCell>
                   <TableCell>
-                    <DechargesList decharges={agent_decharges} />
+                    <DechargesList agent={agent} />
                   </TableCell>
                 </TableRow>
-              );
-            })}
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -63,11 +76,20 @@ function decharges({ decharges }) {
 
 export async function getServerSideProps(context) {
   const decharges = await getDecharges();
-  //   const decharges =
+
+  const ids = [];
+  const agents = [];
+  for (let i = 0; i < decharges.length; i++) {
+    if (decharges[i].agent)
+      if (!ids.includes(decharges[i].agent.id)) {
+        agents.push(decharges[i].agent);
+        ids.push(decharges[i].agent.id);
+      }
+  }
 
   return {
     props: {
-      decharges,
+      agents,
     },
   };
 }
